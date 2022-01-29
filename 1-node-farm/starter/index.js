@@ -58,23 +58,32 @@ fs.readFile("./txt/start.txt", "utf-8", (err, data1) => {
 //-> SERVER
 //# 11 Creating a Simple Web Server
 //# 12 Routing
-//>> http module - gives us networking capabilities such as building a server
+//# 13 Building a Simple API
+//# 14 HTML Templating: Building the templates
+//# 15 HTML Templating: Filling the templates
 
+// Fetching data from API
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
 const dataObject = JSON.parse(data);
 
+// Creating server
 const server = http.createServer((req, res) => {
-  // console.log(res);
-  console.log(req.url);
   const pathName = req.url;
 
+  // Overview Page
   if (pathName === "/" || pathName === "/overview") {
     res.end("This is the overview");
+
+    //Product Page
   } else if (pathName === "/product") {
     res.end("This is the product");
+
+    //API
   } else if (pathName === "/api") {
     res.writeHead(200, { "Content-type": "application/json" });
     res.end(data);
+
+    // Not Found
   } else {
     res.writeHead(404, {
       "Content-type": "text/html",
