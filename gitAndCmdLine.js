@@ -117,3 +117,5 @@ Writing documentations in javascript.
     module.hot.accept();
     }
 */
+
+//# Git commit test
