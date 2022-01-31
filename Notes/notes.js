@@ -183,6 +183,13 @@ import * as http from "http";
 /////////////////////////////////////////////////////
 
 # SECTION 3 - INTRODUCTION TO BACK-END WEB DEVELOPMENT
+# 25. An Overview of How the Web Works
+# 26. HTTP in Action
+# 27 Front end vs back end web dev
+?? Well a basic server is really just a computer that is connected to the internet which, first, stores a website's files like HTML, CSS, and images, and second, runs an HTTP server that is capable of understanding URLs, requests, and also delivering responses.
+// So this piece of HTTP server software is what actually communicates with the browser using requests and responses.Therefore, it is like the bridge between the front-end and the back-end nof a website or web application
+
+# 28 Static vs Dynamic API 
 
 
 /////////////////////////////////////////////////////
@@ -203,6 +210,37 @@ import * as http from "http";
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
 
+# SECTION 3 - INTRODUCTION TO BACK-END WEB DEVELOPMENT
+
+# 29 
+# 30 Node, V8, Libuv and C++
+>> 1️⃣ V8 - the V8 engine is what converts JavaScript code into machine code that a computer can actually understand.
+
+>> 2️⃣ libuv - And libuv is an open source library with a strong focus on asynchronous IO.
+-> LIBUV IS COMPLETELY WRITTEN IN C++
+>> Libuv - Libuv is a library that provides a high-performance event loop for Node.js.
+-> This layer is what gives Node access to the underlying computer operating system, file system, networking, and more. Besides that, libuv also implements two extremely important features of Node.JS which are the event loop and also the thread pool.
+
+>> 3️⃣ Node does actually not only rely on V8 and libuv, but also on http-parser for parsing http, c-ares or something like that for some DNS request stuff, OpenSSL for keptography, and also zlib for compression.
+
+
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
 
 # NPM COMMANDS 
 * Ctrl+D OR .exit to exit
