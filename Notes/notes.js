@@ -221,8 +221,118 @@ import * as http from "http";
 >> Libuv - Libuv is a library that provides a high-performance event loop for Node.js.
 -> This layer is what gives Node access to the underlying computer operating system, file system, networking, and more. Besides that, libuv also implements two extremely important features of Node.JS which are the event loop and also the thread pool.
 
->> 3️⃣ Node does actually not only rely on V8 and libuv, but also on http-parser for parsing http, c-ares or something like that for some DNS request stuff, OpenSSL for keptography, and also zlib for compression.
+>> 3️⃣ Node does actually not only rely on V8 and libuv, but also on 
+// http-parser for parsing http, 
+// c-ares or something like that for some DNS request stuff, 
+// OpenSSL for keptography, and also 
+// zlib for compression.
 
+# 31. Processes, Threads and the Thread Pool
+
+>> Node JS Process (instance of a program in execution on a computer)
+                  ⬇️
+  >> Single Thread (Sequence of instructions)
+                  ⬇️
+  |------------------------------------|
+  |       Initialize Program               
+  |             ⬇️
+  |       Execute Top level Code
+  |             ⬇️
+  |         Require modules
+  |             ⬇️
+  |     Register event callbacks
+  |             ⬇️
+  |        Start event Loop  --------  Thread Pool     
+  |             ⬇️
+  
+ >> Thread Pool - 
+  >>👉  Additional 4 threads or more 
+  >>👉  Offload work from the event loop
+  >>👉  Handle Heavy ('expensive') tasks
+      >>👉 File System APIs 
+      >>👉 Cryptography
+      >>👉 Compression
+      >>👉 DNS Lookup
+  
+IMPORTANT : 
+# 32. The Node.js Event Loop 
+-> Event Loop - All the application code that is inside callback functions 
+>> Node js is built around callback 
+>> event driven architecture 
+  >> Events are emitted
+  >> Event Loops picks them up
+  >> Callbacks are called
+>> event loop does the orchestration 
+
+-> Event Loop in Detail 
+>>                Start
+>>                ⬇️               Callback Queues
+>>          Expired Timer Callbacks
+>>                ⬇️
+>>         I/O Polling(looking for I/O events) & 
+>>             callbacks 
+>>                ⬇️    
+>>         Set Immediate Callbacks
+>>                ⬇️
+>>          Close Callbacks
+>>
+>>  SPECIAL QUEUES -> 
+>>        👉  PROCESS.NEXTTICK() QUEUE
+>>        👉  OTHER MICROTASKS QUEUE (Resolved Promises)
+-> Process.NextTick() -> basically, process the nextTick() is a function that we can use when we really, really need to execute a certain callback right after the current event loop phase.
+
+>>Dont block the event loop
+! Dont use sync versions of functions in fs,crypto,zlib modules in your callback functions
+! Dont perform complex calculations (eg. loops inside loops)
+! Be Careful with JSON in large objects 
+! Don't use too complex regular expressions (Eg. Nested quantifiers)
+
+# 33. The Event Loop in Practice
+IMPORTANT 
+>> Setting the number of threads on MAC vs WINDOWS 
+->>On MAC - In script -> process.env.UV_THREADPOOL_SIZE = 1;
+->> On WINDOWS - IN Command Prompt ->set UV_THREADPOOL_SIZE=1 & node eventLoop.js
+
+# 34. Events and Event-Driven Architecture
+# 35. Events in Practice
+->Event emitters can emit named events and we can then subscribe to these events and then react accordingly
+? It is a bit like setting an event listener on DOM element, for eg. when clicking on a button
+>>  Event Emitter --emits-event--> Event Listener --calls--> Attached Callback function
+
+-> OBSERVER PATTERN =>
+>>    Event Emitter -----------------> Event Listener
+?                     Emits event
+
+>> If you are to use this pattern, then its best practice to create a class that will inherit from the node event emitter
+
+
+# 36. Introduction to Streams
+-> Streams - Used to process (read and write) data piece by piece (chunks), without completing the whole read or write operation, and therefore without keeping all the data in memory
+>> Streams are instances of the EventEmitter class
+
+
+-> TYPES OF STREAMS 
+>>👉  Readable streams - Streams from which we can read data 
+>>        Example - http requests, fs read streams
+>>        Important Events - data,end
+>>        Important Functions - pipe(),read()
+
+>>👉  Writable Streams - Streams to which we can write data
+>>        Example - http responses, fs write streams
+>>        Important Events - drain, finish
+>>        Important Functions - write(), end()
+
+>>👉  Duplex Streams - Streams that are both readable & writable
+>>        Example - net Web Sockets
+
+>>👉  Transform Streams - Duplex streams that transform data as it is read or written
+>>        Example - zlib Gzip creation        
+
+# 37. Streams in Practice
+
+# 38. How Requiring Modules Really Works
+
+# 39. Requiring Modules in Practice
 
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
