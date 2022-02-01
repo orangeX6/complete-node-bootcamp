@@ -329,10 +329,74 @@ IMPORTANT
 >>        Example - zlib Gzip creation        
 
 # 37. Streams in Practice
+?the problem with createReadStream is that our readable stream, is much much faster than actually sending the result with the response writable stream over the network. And this will overwhelm the response stream, which cannot handle all this incoming data so fast. And this problem is called backpressure. And it's a real problem that can happen in real situations.
+-> Backpressure happens when the response cannot send the data nearly as fast as it is receiving it from the file
+>> to fix this use the pipe operator
+  //    readableSource.pipe(writableDest)
+  
+  # 38. How Requiring Modules Really Works
+  # 39. Requiring Modules in Practice
+>> Each JavaScript file is treated as a separate module
+>> Node.js uses the CommonJS module system: require(), exports or module.exports
+>> ES module system is used in browsers: import/export
+>> There have been attempts to bring ES modules to node.js (.mjs)
 
-# 38. How Requiring Modules Really Works
+-> WHAT HAPPENS WHEN WE REQUIRE() A MODULE 
+IMPORTANT 
+->> Resolving path & loading -> Wrapping -> Execution -> Returning Exports -> Caching
 
-# 39. Requiring Modules in Practice
+-> Resolving and loading 
+>> Core Modules -> require('http')
+>> Developer Modules -> require('./lib/controller');
+>> 3rd Party Modules(From NPM) -> require('express');
+
+->Wrapping 
+  modules are wrapped in IIFE. The IIFE has the following parameters 
+  >> require -> function to require modules
+  >> exports -> reference to module.exports, used to export obj from a module
+  >> module -> reference to the current module
+  >> __filename -> absolute path of current module file
+  >> __dirname -> directory name of the current module
+
+-> Execution 
+
+-> Returning Exports 
+ >> require function returns exports of the required module
+ >> module.exports is the returned object(important!)
+ >> Use module.exports to export one single variable, e.g. one class or function
+ Eg. (module.exports = Calculator)
+ >> Use Exports to export multiple named variables
+ Eg. (exports.add = (a,b) => a+b) 
+
+-> Caching 
+>> Result is retrieved from cache in case of subsequent calls to module
+
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+
+# SECTION 5: ASYNCHRONOUS JAVASCRIPT: PROMISES AND ASYNC/AWAIT
+
+# 41. The Problem with Callbacks: Callback Hell
+# 42. From Callback Hell to Promises
+# 43. Building Promises
+# 44. Consuming Promises with Async/Await
+# 45. Returning Values from Async Functions
+# 46. Waiting for Multiple Promises Simultaneously
 
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
