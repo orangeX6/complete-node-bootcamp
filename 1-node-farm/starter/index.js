@@ -1,12 +1,12 @@
-// Node Modules
-const fs = require('fs');
-const http = require('http');
-const url = require('url');
-// Our Modules
-const replaceTemplate = require('./modules/replaceTemplate');
-//Third Party Modules
-const slugify = require('slugify');
-const path = require('path');
+// // Node Modules
+// const fs = require('fs');
+// const http = require('http');
+// const url = require('url');
+// // Our Modules
+// const replaceTemplate = require('./modules/replaceTemplate');
+// //Third Party Modules
+// const slugify = require('slugify');
+// const path = require('path');
 
 // import { readFile, readFileSync, writeFile, writeFileSync } from "fs";
 // import * as http from "http";
@@ -67,6 +67,15 @@ fs.readFile("./txt/start.txt", "utf-8", (err, data1) => {
 //# 13 Building a Simple API
 //# 14 HTML Templating: Building the templates
 //# 15 HTML Templating: Filling the templates
+
+const fs = require('fs');
+const http = require('http');
+const url = require('url');
+
+const replaceTemplate = require('./modules/replaceTemplate');
+
+const slugify = require('slugify');
+const path = require('path');
 
 // Fetching data from API
 const tempOverview = fs.readFileSync(
