@@ -216,18 +216,75 @@ app.use(morgan('dev')); // takes 'dev', 'combined', 'short', 'tiny', 'common'
 /////////////////////////////////////////////////////////////////
 
 #   61. Implementing the "Users" Routes
-
-/////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
-
 #   62. Creating and Mounting Multiple Routers
-
-
 #   63. A Better File Structure
+
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
 #   64. Param Middleware
+>> A param middleware is a special type of middleware that only runs for a certain parameters.
+>> Basically when we have certain parameter in our URL
+
 #   65. Chaining Multiple Middleware Functions
+* .post(tourController.checkBody, tourController.createTour);
+
 #   66. Serving Static Files
+? Static files are the files that are sitting in our file system that we currently cannot access using all routes.
+->  And so, if we actually want to access something from our file system, we need to use a built-in Express middleware.
+
+
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
 #   67. Environment Variables
+-> Node js can run in different environments. 
+-> The most important ones are 
+>> development environment
+>> production environment
+
+-> in server.js
+>> This is set by express
+* console.log(app.get('env));
+>> But node js also sets a lot of env variables 
+* console.log(process.env);
+
+-> IN NODE 12 And Below
+* NODE_ENV=development nodemon server.js
+
+IMPORTANT
+-> IN NODE 14 and ABOVE
+* $Env:NODE_ENV='development'; nodemon server.js
+* $Env:NODE_ENV='development';$Env:X=23;nodemon server.js
+ 
+>>OR 
+>>in package.json
+*SET NODE_ENV=development&&nodemon server.js
+
+-> PACKAGE.JSON
+* "scripts": {
+*    "start:dev": "nodemon server.js",
+*    "start:prod": "NODE_ENV=production&&nodemon server.js"
+*  },
+
+
+// console.log(process.env.NODE_ENV);
+// console.log(app.get('env'));
+// console.log(process.env);
+
+//delete process.env.MYVAR
+
 #   68. Setting up ESLint + Prettier in VS Code
+* npm i eslint prettier eslint-config-prettier eslint-plugin-prettier eslint-config-airbnb eslint-plugin-node eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react --save--dev
+
+>>IF YOU WANT THE EXACT SAME VERSIONS OF JONAS IN THE VIDEO COPY THIS COMMAND:
+
+* npm i eslint@5.16.0 prettier@1.17.0 eslint-config-prettier@4.1.0 eslint-plugin-prettier@3.0.1 eslint-config-airbnb@17.1.0 eslint-plugin-node@8.0.1 eslint-plugin-import@2.17.2 eslint-plugin-jsx-a11y@6.2.1 eslint-plugin-react@7.12.4 --save-dev
+
+>>TO UNINSTALL ALL OF THESE AT ONCE:
+
+* npm un eslint prettier eslint-config-prettier eslint-plugin-prettier eslint-config-airbnb eslint-plugin-node eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react
 */
