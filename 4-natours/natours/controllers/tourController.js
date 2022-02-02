@@ -1,3 +1,4 @@
+/* eslint-disable node/no-unsupported-features/es-syntax */
 const fs = require('fs');
 
 // Reading data from file
@@ -51,7 +52,7 @@ exports.getTour = (req, res) => {
 
 exports.createTour = (req, res) => {
   const newId = tours[tours.length - 1].id + 1;
-  const newTour = Object.assign({ id: newId }, req.body);
+  const newTour = { id: newId, ...req.body };
   tours.push(newTour);
   fs.writeFile(
     `${__dirname}/../dev-data/data/tours-simple.json`,
@@ -71,6 +72,7 @@ exports.updateTour = (req, res) => {
   const id = +req.params.id;
   const tour = tours.find((el) => el.id === id);
   const updatedTour = { ...tour, ...req.body };
+  // eslint-disable-next-line no-shadow
   const updatedTours = tours.map((tour) =>
     tour.id === updatedTour.id ? updatedTour : tour
   );
