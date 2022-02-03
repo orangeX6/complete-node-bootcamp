@@ -340,6 +340,9 @@ testTour
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
 
 IMPORTANT
 IMPORTANT
@@ -364,4 +367,122 @@ IMPORTANT -> PRESENT IN DATA FOLDER
 //node .\dev-data\data\import-dev-data.js --delete
 
 
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+
+#   94. Making the API Better: Filtering
+>>in Mongoose, there are actually two ways of writing database queries. 
+? The first one is to just use filter object
+*  const tours = await Tour.find({
+*      duration: 5,
+*     difficulty: 'easy',
+*    });
+
+? The second way is to use some special Mongoose methods.
+* const query = Tour.find()
+*   .where('duration')
+*   .equals(5)
+*   .where('difficulty')
+*   .equals('easy');
+
+* const tours = await query;
+*   
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+#   95. Making the API Better: Advanced Filtering
+>> Implementing queries for the greater than, the greater or equal than, the less than, and the less or equal than operators. So instead of just having equal, we want to actually be able to, for example, say duration greater or equal than five.
+-> In Postman 
+* 127.0.0.1:3000/api/v1/tours?duration[gte]=5&difficulty=easy&page=3&limit=10&sort=1
+? gte is greater than or equal to
+? logging the req.body to the console gives 
+*   {
+*     duration: { gte: '5' },
+*     difficulty: 'easy',
+*     page: '3',
+*     limit: '10',
+*     sort: '1'
+*   }
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+#   96. Making the API Better: Sorting
+>> API call
+// Ascending Order 
+127.0.0.1:3000/api/v1/tours?sort=price
+
+//Descending Order (add minus)
+127.0.0.1:3000/api/v1/tours?sort=-price
+
+// second criteria 
+127.0.0.1:3000/api/v1/tours?sort=-price,-ratings
+-> in mongoose 
+* sort('price ratingsAverage')
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+#   97. Making the API Better: Limiting Fields
+>> API Call  
+127.0.0.1:3000/api/v1/tours?fields=name,duration,difficulty,price
+
+// DISPLAY ONLY SELECTED FIELDS
+ if (req.query.fields) {
+      const fields = req.query.fields.split(',').join(' ');
+      query = query.select(fields);
+// DONT DISPLAY A PARTICULAR FIELD (adding -)
+    } else {
+      query = query.select('-__v');
+    }
+
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+#   98. Making the API Better: Pagination
+>>API Call
+* 127.0.0.1:3000/api/v1/tours?page=2&limit=25
+
+>>in controller
+>>>so lets say if user wants 10 results on page 1 and 10 on page 2. so on page2 we skip the first 10 results while displaying the next 10 
+-> page=2&limit=10, 1-10 page 1, 11-20 page 2 ...
+* query = query.skip(10).limit(10);
+? here limit is the amount of results.
+? skip is the amount of results that should be skipped before querying data
+
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+#   100. Refactoring API Features
+IMPORTANT Explanation of code in APIFeatures Class created
+-> the APIFeatures class expects a mongoose query object as an input. The way we create a query object is by creating a query with Tour.find(), but not executing the query right away, so not using await on it (in case we're using async/await like we do in the course).
+>>Again, by doing this, we end up with a query object onto which we can then chain other methods, such as sort, or another find, as you posted in your example:
+* this.query.find(JSON.parse(queryStr))
+-> Keep in mind that here, inside the class, this.query is the query object we created in the beginning, so it's like having:
+* Tour.find().find(JSON.parse(queryStr))
+>>And yes, that is totally acceptable. Again, because the query has not yet executed, it didn't return the actual results yet. That's what we do in the end, which is the reason why in the end we have to use
+* const tours = await features.query;
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+#   101. Aggregation Pipeline: Matching and Grouping
+#   102. Aggregation Pipeline: Unwinding and Projecting
+#   103. Virtual Properties
+#   104. Document Middleware
+#   105. Query Middleware
+#   106. Aggregation Middleware
+#   107. Data Validation: Built-In Validators
+#   108. Data Validation: Custom Validators
 */
