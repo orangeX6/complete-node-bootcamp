@@ -56,4 +56,312 @@
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
+
+#   73. Creating a Local Database
+>> Switch to a db or create it if it does'nt exist -> 
+* use natours-test
+
+>> Creating Collection and inserting docs(tables in RD terms)
+* db.tours.insertOne({name:"The Forest Hiker", price: 297, rating:4.7})
+
+>> Inserting multiple docs
+* db.tours.insertMany([{name:"The Sea Explorer", price: 497, rating: 4.8},{name:"The Snow Adventurer", price: 997, rating: 4.9, difficulty: "easy"}])
+
+>> List dbs
+* show dbs
+
+>> Switch db
+* use admin
+
+>> List Collections in db 
+* show collections
+
+>> Quit mongo
+* quit()
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+
+#   74. CRUD: Creating Documents
+>> Create multiple documents
+* db.tours.insertMany([{name:"The Sea Explorer", price: 497, rating: 4.8},{name:"The Snow Adventurer", price: 997, rating: 4.9, difficulty: "easy"}])
+
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+#   75. CRUD: Querying (Reading) Documents
+>> get all docs in collection
+* db.tours.find()
+
+>> Search by name
+* db.tours.find({name:"The Forest Hiker"})
+* db.tours.find({difficulty:"easy"})
+
+>> Tours with price below 500
+-> $ is used for mongo db operators 
+-> lte stands for less than or equal to
+* db.tours.find({price: {$lte: 500}})
+
+>> Price less than 500 AND rating greater than or equal to 4.8
+-> lt: less than
+-> gte: greater than or equal to
+* db.tours.find({price: {$lt: 500}, rating: {$gte: 4.8}})
+
+>> Price less than 500 OR rating greater than or equal to 4.8
+* db.tours.find({$or: [{price: {$lt: 500}},{rating: {$gte: 4.8}} ] })
+
+>> Price greater than 500 OR rating greater than or equal to 4.8
+* db.tours.find({$or: [ {price:{$gt:500}}, {rating:{$gte:4.8}} ] })
+
+>> Besides our filter object in find, we can also add projection object. 
+>> Projection means we simply want to select some of the fields in output. 
+* db.tours.find({$or: [ {price:{$gt:500}}, {rating:{$gte:4.8}} ] }, {name:1})
+-> OUTPUTS only name and no other property
+?   { "_id" : ObjectId("61fb8ed0999544e8adb99142"), "name" : "The Sea Explorer" }
+?   { "_id" : ObjectId("61fb8ed0999544e8adb99143"), "name" : "The Snow Adventurer" }
+
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+#   76. CRUD: Updating Documents
+>> Update a document 
+* db.tours.updateOne({name: "The Snow Adventurer"}, {$set: {price: 597}})
+? If this query would have matched multiple documents, then only the first one would have been updated. So if our query is matching multiple documents, then we should use updateMany instead of updateOne
+
+>> Creating a new property for a document if price > 500 and rating >= 4.8
+* db.tours.updateMany({price: {$gt:500}, rating:{$gte:4.8}} , { $set: {premium: true}})
+
+>> Completely replace part of document - 
+? SIMILAR TO ABOVE i.e. updateOne and updateMany
+* db.tours.replaceOne()
+* db.tours.replaceMany()
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+#   77. CRUD: Deleting Documents
+>> Delete all tours which have ratings less than 4.8
+* db.tours.deleteMany({rating: {$lt:4.8}})
+
+>> Deleting all the documents 
+* db.tours.deleteMany({})
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+#   78. Using Compass App for CRUD Operations
+#   79. Creating a Hosted Database with Atlas
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+
+#   80. Connecting to Our Hosted Database
+-> MONGO SHELL CONNECTION LINK
+// mongo "mongodb+srv://cluster0.nawvt.mongodb.net/myFirstDatabase" --username pranav
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+
+# SECTION 8 - USING MONGO DB WITH MONGOOSE
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+
+#   81. Section Intro
+#   82. Connecting Our Database with the Express App
+#   83. What Is Mongoose?
+#   84. Creating a Simple Tour Model
+#   85. Creating Documents and Testing the Model
+#   86. Intro to Back-End Architecture: MVC, Types of Logic, and More
+#   87. Refactoring for MVC
+#   88. Another Way of Creating Documents
+#   89. Reading Documents
+#   90. Updating Documents
+#   91. Deleting Documents
+#   92. Modelling the Tours
+#   93. Importing Development Data
+#   94. Making the API Better: Filtering
+#   95. Making the API Better: Advanced Filtering
+#   96. Making the API Better: Sorting
+#   97. Making the API Better: Limiting Fields
+#   98. Making the API Better: Pagination
+#   99. Making the API Better: Aliasing
+#   100. Refactoring API Features
+#   101. Aggregation Pipeline: Matching and Grouping
+#   102. Aggregation Pipeline: Unwinding and Projecting
+#   103. Virtual Properties
+#   104. Document Middleware
+#   105. Query Middleware
+#   106. Aggregation Middleware
+#   107. Data Validation: Built-In Validators
+#   108. Data Validation: Custom Validators
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+
+#   82. Connecting Our Database with the Express App
+
+const DB = process.env.DATABASE.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD
+);
+
+// Connecting to db on aws 
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
+  .then(() => console.log(`DB connection successful!`));
+
+//Connecting on db in local machine 
+mongoose
+  .connect(process.env.DATABASE_LOCAL, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
+  .then(() => console.log(`DB connection successful!`));
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+
+#   83. What Is Mongoose?
+-> Mongoose is an Object Data Modeling(ODM) library for mongoDB and Node.js, a higher level of abstraction
+
+>> Object Data Modeling library is just a way for us to write javascript code that will then interact with the database
+
+-> Mongoose allows for rapid and simple development of mongoDB database interactions 
+
+-> Features 
+>> schemas to model data and relationships
+>> easy data validation
+>> simple query API
+>> middleware, etc.
+
+>> Mongoose Schema - where we model our data, by describing the structure of the data, default values and validation
+
+>> Mongoose Model - A wrapper for the schema, providing an interface to the database for CRUD operations
+
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+#   84. Creating a Simple Tour Model
+#   85. Creating Documents and Testing the Model
+
+>> So, Mongoose is all about models, and a model is like a blueprint that we use to create documents. So it's a bit like classes in JavaScript, which we also kind of use as blueprints in order to create objects
+-> Naming  Convention
+>> The name of the model must be capital
+
+//Creating Schema 
+
+const tourSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'A tour must have a name'],
+    unique: true,
+  },
+  rating: {
+    type: Number,
+    default: 4.5,
+  },
+  price: {
+    type: Number,
+    required: [true, 'A tour must have a price'],
+  },
+});
+
+// CREATING MODEL 
+const Tour = mongoose.model('Tour', tourSchema);
+
+// Creating a Document from model 
+const testTour = new Tour({
+  name: 'The Park Camper',
+  price: 997,
+});
+
+// Save document to tours collection
+testTour
+  .save()
+  .then((doc) => console.log(doc))
+  .catch((err) => console.error(`ERROR:💥💥💥 ${err}`));
+
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+
+#   86. Intro to Back-End Architecture: MVC, Types of Logic, and More
+#   87. Refactoring for MVC
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+#   88. Another Way of Creating Documents
+-> Ways to create documents 
+
+//Solution 1 
+* const newTour = new Tour({})
+* newTour.save()
+
+//Solution 2 
+* Tour.create({})
+
+#   89. Reading Documents
+* Tour.find()
+* Tour.findById(req.params.id)
+// findById is just a helper function for  
+* Tour.findOne({ _id: req.params.id })
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+IMPORTANT
+IMPORTANT
+IMPORTANT
+#   93. Importing Development Data
+-> Creating a script that will automatically import all the data from a json file to our db
+>> Not part of app. 
+IMPORTANT -> PRESENT IN DATA FOLDER
+-> RUN importData() IF --import
+>> IN Script 
+*   console.log(process.argv);
+>>In TERMINAL
+* node .\dev-data\data\import-dev-data.js --import
+>> OUTPUTS 
+*   [  'C:\\Program Files\\nodejs\\node.exe',
+*   'D:\\Projects\\Udemy\\complete-node-bootcamp\\4-natours\\natours\\dev-data\\data\\import-dev-data.js',
+*  '--import'
+*   ]
+
+
+// RUN deleteData() IF --import
+//node .\dev-data\data\import-dev-data.js --delete
+
+
 */
