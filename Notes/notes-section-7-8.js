@@ -478,11 +478,71 @@ IMPORTANT Explanation of code in APIFeatures Class created
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 #   101. Aggregation Pipeline: Matching and Grouping
+->> MongoDB aggregation pipeline is an extremely powerful and extremely useful MongoDB framework for data aggregation.
+>>  The idea is that we basically define a pipeline that all documents from a certain collection go through where they are processed step by step in order to transform them into aggregated results
+>>For example, we can use the aggregation pipeline in order to calculate averages or calculating minimum and maximum values or we can calculate distances even, etc
+
+
+*    const stats = Tour.aggregate([]);
+>> So we pass in an array, and then here we will then have a lot of stages. And documents then pass through these stages one by one, step by step in the define sequence as we define it here. So each of the elements in this array will be one of the stages. And there are a ton of different stages that we can choose from, but the most common ones are used in the syntax above
+
+// NOT EQUAL TO OPERATOR
+      {
+        $match: { _id: { $ne: 'EASY' } },
+      },
+
 #   102. Aggregation Pipeline: Unwinding and Projecting
+
+>>  implement a function to calculate the busiest month of a given year. So basically by calculating how many tours start in each of the month of the given year.
+
+-> StartDates is an array in the tour document. Unwind will unwind the array and return startDates.length documents with Startdates as a string instead of array.
+>> IT WILL Create a document for each item in the array
+ *  const plan = await Tour.aggregate([
+ *     {
+ *       $unwind: '$startDates',
+ *     },
+ *   ]);
+
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
 #   103. Virtual Properties
+>> Virtual properties are basically fields that we can define on our schema but it will not be persisted. So they will not be saved in the database.
+>> Virtual properties makes sense for the fields that can be derived from one another. 
+>> For example km to miles conversion
+? will convert duration to weeks in our example
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
 #   104. Document Middleware
+
+>>Each time a new document is saved to the database, we can run a function between the save command is issued and the actual saving of the document, or also after the actual saving.
+>> And that's the reason why Mongoose middleware is also called pre and post hooks. So again, because we can define functions to run before or after a certain event, like saving a document to the database.
+>>So there are four types of middleware in Mongoose: document, query, aggregate, and model middleware.
+-> Document Middleware: runs before .save() and .create(), but not on insert() and many()
+
+tourSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
 #   105. Query Middleware
+>> Query middleware allows us to run functions before or after a certain query is executed.
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
 #   106. Aggregation Middleware
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
 #   107. Data Validation: Built-In Validators
 #   108. Data Validation: Custom Validators
 */

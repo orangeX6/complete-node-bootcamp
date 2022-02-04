@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@types/mongoose": "^5.11.97",
     "morgan": "^1.10.0"
   }
 }
