@@ -50,8 +50,10 @@ const tourSchema = new mongoose.Schema(
       type: Number,
       validate: {
         validator: function (val) {
+          // this only points to current doc on NEW document creation. So it won't work on update
           return val < this.price;
         },
+        // {VALUE} is internal to mongoose and will get access to val. Its not related to javascript
         message: 'Discount price ({VALUE}) should be below regular price',
       },
     },
@@ -87,13 +89,27 @@ const tourSchema = new mongoose.Schema(
 );
 
 // DOCUMENT MIDDLEWARE
+// Add slug property to the document
+// this here points at the current document
 tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();
 });
 
+// tourSchema.pre('save', function (next) {
+//   console.log('Will create document');
+//   next();
+// });
+
+// tourSchema.post('save', function (doc, next) {
+//   console.log(doc);
+//   next();
+// });
+
 //  QUERY MIDDLEWARE
+// excluding the secret tour in getAllTours
 //-> this here points at the current query
+// tourSchema.pre('find', function (next) {
 tourSchema.pre(/^find/, function (next) {
   this.find({ secretTour: { $ne: true } });
   this.start = Date.now();
@@ -102,18 +118,26 @@ tourSchema.pre(/^find/, function (next) {
 
 tourSchema.post(/^find/, function (docs, next) {
   console.log(`Query took ${Date.now() - this.start} milliseconds`);
+  // console.log(docs);
   next();
 });
 
 //AGGREGATION MIDDLEWARE
+// excluding the secret tour in aggregation queries. (tour stats, monthly plans)
 //-> this here points at the current aggregation object
 tourSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
   console.log(util.inspect(this, false, null, true));
+  // console.log(this);
+  // console.log(util.inspect(this._pipeline, false, null, true));
+  // this._pipeline.unshift({ $match: { secretTour: { $ne: true } } });
+  // console.log(this.__proto__);
+
   next();
 });
 
 //  VIRTUAL PROPERTY
+// Using regular function since we need this
 tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
 });

@@ -18,6 +18,12 @@ exports.getAllTours = async (req, res) => {
       .paginate();
     const tours = await features.query;
 
+    // const query =  Tour.find()
+    //   .where('duration')
+    //   .equals(5)
+    //   .where('difficulty')
+    //   .equals('easy');
+
     // SEND RESPONSE
     res.status(200).json({
       status: 'success',
@@ -37,6 +43,7 @@ exports.getAllTours = async (req, res) => {
 exports.getTour = async (req, res) => {
   try {
     const tour = await Tour.findById(req.params.id);
+    // Tour.findOne({ _id: req.params.id })
 
     res.status(200).json({
       status: 'success',
@@ -115,6 +122,7 @@ exports.getTourStats = async (req, res) => {
       {
         $group: {
           _id: { $toUpper: '$difficulty' },
+          // _id: '$ratingsAverage',
           numTours: { $sum: 1 },
           numRatings: { $sum: '$ratingsQuantity' },
           avgRating: { $avg: '$ratingsAverage' },
@@ -126,6 +134,9 @@ exports.getTourStats = async (req, res) => {
       {
         $sort: { avgPrice: 1 },
       },
+      // {
+      //   $match: { _id: { $ne: 'EASY' } },
+      // },
     ]);
 
     res.status(200).json({

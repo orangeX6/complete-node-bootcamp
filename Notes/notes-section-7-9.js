@@ -689,9 +689,14 @@ npm i validator
 ? Using req.query instead of req.body
 ? etc
 
+? So, when we're talking about error handling with Express, we mainly just mean operational errors. Because these are the ones that are easy to catch and to handle with our Express application. And Express actually comes with error handling out of the box.
+>> So, all we have to do is to write a global express error handling middleware which will then catch errors coming from all over the application.
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
+
+#   114. Implementing a Global Error Handling Middleware
 
 
 

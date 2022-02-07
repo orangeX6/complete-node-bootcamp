@@ -1,9 +1,17 @@
+/*eslint strict: ["error", "global"]*/
+
+'use strict';
+
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
 dotenv.config({ path: './config.env' });
 
 const app = require('./app');
+
+// console.log(process.env.NODE_ENV);
+// console.log(app.get('env'));
+// console.log(process.env);
 
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
