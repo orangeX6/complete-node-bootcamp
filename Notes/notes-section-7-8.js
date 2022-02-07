@@ -535,14 +535,164 @@ tourSchema.pre('save', function (next) {
 #   105. Query Middleware
 >> Query middleware allows us to run functions before or after a certain query is executed.
 
+//Regular expression /^find/ - works for all functions which start with find
+// tourSchema.pre('find', function (next) {
+tourSchema.pre(/^find/, function (next) {
+  this.find({ secretTour: { $ne: true } });
+  this.start = Date.now();
+  next();
+});
+
+tourSchema.post(/^find/, function (docs, next) {
+  console.log(`Query took ${Date.now() - this.start} milliseconds`);
+  console.log(docs);
+});
+
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 #   106. Aggregation Middleware
+>> aggregation middleware allows us to add hooks before or after an aggregation happens,
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 #   107. Data Validation: Built-In Validators
+>> Well, validation is basically checking if the entered values are in the right format for each field in our document schema, and also that values have actually been entered for all of the required fields.
+
+? validator: {
+?  values: ,
+?  message: 
+? }
+>> SHORTCUT 
+? validator: [value, message] 
+
+-> Mongoose provides us with a bunch of validators 
+* required: [true, 'A tour must have a name'],
+>> FOR STRINGS 
+*      maxLength: [40, 'A tour name must have less or equal than 40 characters'],
+*      minLength: [10, 'A tour name must have less or equal than 40 characters'],
+*     enum: {
+*        values: ['easy', 'medium', 'difficult'],
+*        message: 'Difficulty is either: easy, medium, difficult',
+*      },
+>> FOR NUMBERS AND DATES
+*      min: [1, 'Rating must be above 1.0'],
+*     max: [5, 'Rating must be below 5.0'],
+
+-> WE NEED TO SET RUN VALIDATORS AS TRUE TO RUN VALIDATORS WHILE UPDATING.
+*  const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+*      new: true,
+*      runValidators: true,
+*    });
+
 #   108. Data Validation: Custom Validators
+>> Custom validator to validate whether the price discount is lower than price
+
+>> There are a couple of libraries on npm for data validation that we can simply plug in here as custom validators that we do not have to write ourselves. And the most popular library is called validator
+
+https://www.npmjs.com/package/validator
+npm i validator
+
+>> In model
+ *     validate: validator.isAlpha,
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+
+# SECTION 9 - ERROR HANDLING WITH EXPRESS
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+
+#   111. Debugging Node.js with ndb
+#   112. Handling Unhandled Routes
+#   113. An Overview of Error Handling
+#   114. Implementing a Global Error Handling Middleware
+#   115. Better Errors and Refactoring
+#   116. Catching Errors in Async Functions
+#   117. Adding 404 Not Found Errors
+#   118. Errors During Development vs Production
+#   119. Handling Invalid Database IDs
+#   120. Handling Duplicate Database Fields
+#   121. Handling Mongoose Validation Errors
+#   122. Errors Outside Express: Unhandled Rejections
+#   123. Catching Uncaught Exceptions
+
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+#   111. Debugging Node.js with ndb
+-> ndb - Node Debugger is just a npm package
+* npm i ndb --global
+
+>> In package.json
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+#   112. Handling Unhandled Routes
+
+>> We simply want to handle all the routes, so all the URL's, for all the verbs right here in this one handler, okay.
+>> And so in Express, we can use app.all.
+*app.all()
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+#   113. An Overview of Error Handling
+
+>> Optional errors-  Problems that we can predict will happen at some point, so we just need to handle them in advance. 
+? Example 
+? invalid path accessed
+? Invalid user input (validate error from mongoose)
+? Failed to connect to server
+? Failed to connect to database
+? Request Timeout
+? etc
+
+>> Programming Errors - Bugs that we developer introduce into our code. Difficult to find and handle.
+
+? Reading properties on undefined
+? Passing a number where an object is expected
+? Using await without async
+? Using req.query instead of req.body
+? etc
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+
+
 */
