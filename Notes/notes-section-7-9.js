@@ -730,4 +730,35 @@ npm i validator
 *    }
 * }
 
+
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+#   122. Errors Outside Express: Unhandled Rejections
+#   123. Catching Uncaught Exceptions
+
+-> UNHANDLED REJECTIONS
+>> basically, we are listening to this unhandled rejection event, which then allows us to handle all the errors that occur in asynchronous code which were not previously handled.
+
+-> UNCAUGHT EXCEPTIONS 
+>>But what exactly are uncaught exceptions? Well, all errors, or let's also call them bugs, that occur in our synchronous code but are not handled anywhere are called uncaught exceptions.
+
+
+? Now while in the unhandled rejection, crashing the application like we did here is optional, when there is an uncaught exception, we really, really need to crash our application because after there was an uncaught exception, the entire node process is in a so-called unclean state.
+>> And so to fix that, the process need to terminate and then to be restarted. 
+*    process.exit(1);
+
+? In production, we should then have a tool in place which will restart the application after crashing. And many hosting services already do that out of the box.
+Now, in Node.js, it's not really a good practice
+to just blindly rely on these two error handlers
+that we just implemented here, okay?
+So ideally errors should really be handled
+right where they occur.
+
+-> IN SERVER.JS 
+
 */
