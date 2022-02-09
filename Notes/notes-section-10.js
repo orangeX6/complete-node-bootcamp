@@ -1,10 +1,13 @@
 /*
+IMPORTANT SECTION
 # SECTION 10 - AUTHENTICATION, AUTHORIZATION AND SECURITY
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////
 
+
+# ⎛⎝(•‿•)⎠⎞
 #   125. Modelling Users
 #   126. Creating New Users
 #   127. Managing Passwords
@@ -33,10 +36,30 @@
 //////////////////////////////////////////////////
 
 #   125. Modelling Users
+>> Created userModel.js
 
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+#   126. Creating New Users
+>> Created authController.js 
 
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
+#   127. Managing Passwords
+>> Added Validation and encrypted password 
+>> userModel.js
+-> When we are working with authentication, one of the most fundamental principles is to never ever store plain passwords in a database.
+-> We should really always encrypt user's passwords.
+-> the term "hash" or "hashing" is used all the time and so that basically means encryption 
+-> Will be using a popular hashing algorithm called bcrypt
+
+>>BCRYPT
+->> This algorithm will first salt then hash our password in order to make it really strong to protect it against brute force attacks.
+? salt our password means that its gonna add a random string to the password so that two equal passwords do not generate the same hash
+
+* npm i bcryptjs
+
 
 */

@@ -75,7 +75,6 @@ const url = require('url');
 const replaceTemplate = require('./modules/replaceTemplate');
 
 const slugify = require('slugify');
-const path = require('path');
 
 // Fetching data from API
 const tempOverview = fs.readFileSync(
