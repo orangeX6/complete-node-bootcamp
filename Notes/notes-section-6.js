@@ -133,6 +133,8 @@ IMPORTANT
 >> 201 Created
 >> 204 Deleted. Data:null
 >> 404 Not Found
+>> 401 Unauthorized access 
+>> 500 Server error
 
 #   54. Responding to URL Parameters
 IMPORTANT 

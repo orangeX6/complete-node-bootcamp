@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, ''],
     minLength: [8, 'A password must be at least 8 characters long'],
+    select: false,
   },
   passwordConfirm: {
     type: String,
@@ -34,6 +35,7 @@ const userSchema = new mongoose.Schema({
       message: 'Password do not match',
     },
   },
+  passwordChangedAt: Date,
 });
 
 userSchema.pre('save', async function (next) {
@@ -47,6 +49,28 @@ userSchema.pre('save', async function (next) {
   this.passwordConfirm = undefined;
   next();
 });
+
+//this.password won't be available since we have set select:false for password. So we need to pass the user password
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+
+    return JWTTimestamp < changedTimestamp;
+  }
+
+  //False means NOT changed
+  return false;
+};
 
 const User = mongoose.model('User', userSchema);
 
