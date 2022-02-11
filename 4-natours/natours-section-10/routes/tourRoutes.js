@@ -10,6 +10,8 @@ router
   .route('/top-5-cheap')
   .get(tourController.aliasTopTours, tourController.getAllTours)
   .get(tourController.aliasTopTours, tourController.getAllTours);
+//IMPORTANT We can add the catchAsync here as well
+//.get(catchAsync(tourController.aliasTopTours, tourController.getAllTours));
 
 router.route('/tour-stats').get(tourController.getTourStats);
 router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
