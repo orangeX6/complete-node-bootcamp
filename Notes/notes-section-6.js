@@ -134,6 +134,7 @@ IMPORTANT
 >> 204 Deleted. Data:null
 >> 404 Not Found
 >> 401 Unauthorized access 
+>> 403 Forbidden
 >> 500 Server error
 
 #   54. Responding to URL Parameters
