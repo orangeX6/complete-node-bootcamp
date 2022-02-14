@@ -49,6 +49,17 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+  loginAttempts: {
+    type: Number,
+    select: false,
+    default: 0,
+  },
+  isBlocked: {
+    type: Boolean,
+    select: false,
+    default: false,
+  },
+  unblockTime: Date,
 });
 
 userSchema.pre('save', async function (next) {
@@ -110,6 +121,38 @@ userSchema.methods.createPasswordResetToken = function () {
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
   return resetToken;
+};
+
+userSchema.methods.isLoginBlocked = async function () {
+  //  1) Time to unblock
+  let timeRemaining;
+  if (this.isBlocked) {
+    timeRemaining = this.unblockTime - Date.now();
+  }
+
+  //  2) Unblock if blocking past time
+  if (timeRemaining < 0) {
+    this.isBlocked = false;
+    this.loginAttempts = 0;
+    this.unblockTime = undefined;
+    this.save({ validateBeforeSave: false });
+  }
+
+  //  3) return time to unblock for error handling
+  return timeRemaining;
+};
+
+userSchema.methods.incorrectLogin = async function (incorrect) {
+  // Update login counter, if login was incorrect
+  if (incorrect) this.loginAttempts += 1;
+  else this.loginAttempts = 0;
+
+  if (this.loginAttempts >= 3) {
+    this.isBlocked = true;
+    this.unblockTime = Date.now() + 10 * 60 * 1000;
+  }
+
+  await this.save({ validateBeforeSave: false });
 };
 
 const User = mongoose.model('User', userSchema);

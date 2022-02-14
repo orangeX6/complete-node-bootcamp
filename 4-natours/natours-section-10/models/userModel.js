@@ -112,6 +112,11 @@ userSchema.methods.createPasswordResetToken = function () {
   return resetToken;
 };
 
+userSchema.methods.loginAttempt = function(user){
+  console.log('😂😂😂');
+  console.log(user);
+}
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

@@ -58,7 +58,14 @@ exports.login = catchAsync(async (req, res, next) => {
   // 2) Check if user exists and password is correct
   const user = await User.findOne({ email }).select('+password');
 
-  if (!user || !(await user.correctPassword(password, user.password))) {
+  const passwordMatch = await user.correctPassword(password, user.password)
+
+  if(user && !passwordMatch){
+    console.log('😂😂😂😂💣💣💣💣💣');
+    loginAttempt(user)
+  }
+
+  if (!user || !passwordMatch) {
     return next(new AppError('Incorrect email or password', 401));
   }
 
@@ -189,7 +196,6 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   await user.save();
 
   //  3)  Update changedPasswordAt property for the user
-
   //  4)  Log the user in, send JWT
   createSendToken(user, 200, res);
 });
