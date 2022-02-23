@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 const util = require('util');
+// const User = require('./userModel'); //Video 151
 // const validator = require('validator');
 
 const tourSchema = new mongoose.Schema(
@@ -79,6 +80,37 @@ const tourSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    startLocation: {
+      //GeoJSON
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point'],
+      },
+      coordinates: [Number],
+      address: String,
+      description: String,
+    },
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point'],
+        },
+        coordinates: [Number],
+        address: String,
+        description: String,
+        day: Number,
+      },
+    ],
+    // guides: Array,   // Embedding (video 151)
+    guides: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
@@ -86,17 +118,44 @@ const tourSchema = new mongoose.Schema(
   }
 );
 
-// DOCUMENT MIDDLEWARE
+//  VIRTUAL PROPERTY
+tourSchema.virtual('durationWeeks').get(function () {
+  return this.duration / 7;
+});
+
+//  VIRTUAL POPULATE
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'tour',
+  localField: '_id',
+});
+
+//  DOCUMENT MIDDLEWARE
 tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();
 });
+
+//Embedding (151)
+// tourSchema.pre('save', async function (next) {
+//   const guidesPromises = this.guides.map(async (id) => await User.findById(id));
+//   this.guides = await Promise.all(guidesPromises);
+//   next();
+// });
 
 //  QUERY MIDDLEWARE
 //-> this here points at the current query
 tourSchema.pre(/^find/, function (next) {
   this.find({ secretTour: { $ne: true } });
   this.start = Date.now();
+  next();
+});
+
+tourSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'guides',
+    select: '-__v -passwordChangedAt',
+  });
   next();
 });
 
@@ -111,11 +170,6 @@ tourSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
   console.log(util.inspect(this, false, null, true));
   next();
-});
-
-//  VIRTUAL PROPERTY
-tourSchema.virtual('durationWeeks').get(function () {
-  return this.duration / 7;
 });
 
 const Tour = mongoose.model('Tour', tourSchema);

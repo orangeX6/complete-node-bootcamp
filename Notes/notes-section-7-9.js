@@ -230,6 +230,11 @@ const DB = process.env.DATABASE.replace(
 );
 
 // Connecting to db on aws 
+const DB = process.env.DATABASE.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD
+);
+
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
@@ -237,6 +242,9 @@ mongoose
     useFindAndModify: false,
   })
   .then(() => console.log(`DB connection successful!`));
+
+//
+//
 
 //Connecting on db in local machine 
 mongoose

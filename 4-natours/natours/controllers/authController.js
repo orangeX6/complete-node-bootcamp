@@ -34,6 +34,7 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
+//>> SIGN UP
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
@@ -47,6 +48,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   createSendToken(newUser, 201, res);
 });
 
+//>> SIGN IN
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -86,6 +88,7 @@ exports.login = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res);
 });
 
+//>> PROTECT UNAUTHORIZED USE
 exports.protect = catchAsync(async (req, res, next) => {
   // 1) Getting token and check of its existence
   let token;
@@ -127,6 +130,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
+//>> RESTRICT TO AUTHORIZED USERS
 // eslint-disable-next-line arrow-body-style
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
@@ -140,6 +144,7 @@ exports.restrictTo = (...roles) => {
   };
 };
 
+//>> FORGOT PASSWORD
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   //  1)  Get user based on posted email
   const user = await User.findOne({ email: req.body.email });
@@ -184,6 +189,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 });
 
+//>> RESET PASSWORD
 exports.resetPassword = catchAsync(async (req, res, next) => {
   //  1)  Get user based on token
   const hashedToken = crypto
@@ -213,6 +219,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res);
 });
 
+//>> UPDATE PASSWORD
 exports.updatePassword = catchAsync(async (req, res, next) => {
   //  1)  Get user from collection
   const user = await User.findById(req.user.id).select('+password');
