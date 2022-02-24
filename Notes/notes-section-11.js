@@ -189,9 +189,32 @@ tourSchema.virtual('reviews', {
 ///////////////////////////////////////////////////////
 #   159. Nested Routes with Express
 #   160. Adding a Nested GET Endpoint
+
+ 
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+
 #   161. Building Handler Factory Functions: #  Delete
+
+>>  Adding very similar handlers to all of our controllers will create a lot of duplicate code.
+
+>> Because all these update handlers, or all these delete handlers, or all these create handlers, they really all just look basically the same, right?
+
+? Also, imagine that we wanted to change like some https status code or status message. Then we would have to go into each and every controller and then change all the handlers in there. And so, instead of manually writing all these handlers, why not simply create a factory function that's gonna return these handlers for us? So, a factory function is exactly that.
+-> FACTORY FUNCTION - It's a function that returns another function, and in this case our handler function. So, for deleting, for creating, for updating, and also for reading resources. 
+
 #   162. Factory Functions: Update and Create
 #   163. Factory Functions: Reading
+ 
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+
 #   164. Adding a /me Endpoint
 #   165. Adding Missing Authentication and #  Authorization
 #   166. Importing Review and User Data
