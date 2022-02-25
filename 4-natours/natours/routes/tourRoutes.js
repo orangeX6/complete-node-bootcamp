@@ -15,21 +15,36 @@ router
   .get(tourController.aliasTopTours, tourController.getAllTours);
 
 router.route('/tour-stats').get(tourController.getTourStats);
-router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
 
-//prettier-ignore
+router
+  .route('/monthly-plan/:year')
+  .get(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide', 'guide'),
+    tourController.getMonthlyPlan
+  );
+
 router
   .route('/')
-  .get(authController.protect ,tourController.getAllTours)
-  .post(tourController.createTour);
+  .get(tourController.getAllTours)
+  .post(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.createTour
+  );
 
-//prettier-ignore
 router
   .route('/:id')
   .get(tourController.getTour)
-  .patch(tourController.updateTour)
-  .delete(authController.protect,
+  .patch(
+    authController.protect,
     authController.restrictTo('admin', 'lead-guide'),
-    tourController.deleteTour);
+    tourController.updateTour
+  )
+  .delete(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.deleteTour
+  );
 
 module.exports = router;

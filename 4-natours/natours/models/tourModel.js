@@ -1,7 +1,7 @@
 /* eslint-disable prefer-arrow-callback */
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-const util = require('util');
+// const util = require('util');
 // const User = require('./userModel'); //Video 151
 // const validator = require('validator');
 
@@ -118,6 +118,12 @@ const tourSchema = new mongoose.Schema(
   }
 );
 
+// Indexing
+// tourSchema.index({ price: 1 });
+//Compound index
+tourSchema.index({ price: 1, ratingsAverage: -1 });
+tourSchema.index({ slug: 1 });
+
 //  VIRTUAL PROPERTY
 tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
@@ -168,7 +174,7 @@ tourSchema.post(/^find/, function (docs, next) {
 //-> this here points at the current aggregation object
 tourSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
-  console.log(util.inspect(this, false, null, true));
+  // console.log(util.inspect(this, false, null, true));
   next();
 });
 

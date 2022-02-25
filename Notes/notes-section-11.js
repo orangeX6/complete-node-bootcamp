@@ -218,7 +218,49 @@ tourSchema.virtual('reviews', {
 #   164. Adding a /me Endpoint
 #   165. Adding Missing Authentication and #  Authorization
 #   166. Importing Review and User Data
+
+-> In order to prevent turning off password encryption, I set a new value for the NODE_ENV variable to LOADER in my config.env file.
+
+NODE_ENV=LOADER
+
+-> After that, I implemented a new block in my userModel.js asking for the NODE_ENV and set this.isNew to true:
+
+
+
+if(process.env.NODE_ENV === 'LOADER'){
+        this.isNew = true;
+        return next();
+}
+-> Finally, the function looks like:
+
+userSchema.pre('save', async function(next){
+ 
+    //Only run this function if password was actually modified
+    if(!this.isModified('password')) return next();
+ 
+    if(process.env.NODE_ENV === 'LOADER'){
+        this.isNew = true;
+        return next();
+    }
+    // Hash the password with cost of 12
+    this.password = await bcrypt.hash(this.password,12);
+ 
+    //Delete passwordConfirm field
+    this.passwordConfirm = undefined;
+ 
+    next();
+ 
+});
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+
 #   167. Improving Read Performance with #  Indexes
+IMPORTANT 
+-> CHECK VIDEO
+
 #   168. Calculating Average Rating on Tours - #  Part 1
 #   169. Calculating Average Rating on Tours - #  Part 2
 #   170. Preventing Duplicate Reviews
