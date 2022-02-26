@@ -263,6 +263,28 @@ IMPORTANT
 
 #   168. Calculating Average Rating on Tours - #  Part 1
 #   169. Calculating Average Rating on Tours - #  Part 2
+
+In video 168, Jonas used the below code to call the calcAverageRatings statics method inside post query middleware.  Jonas said that this.findOne() will not work inside post query middleware.
+
+reviewSchema.pre(/^findOneAnd/, async function (next) {
+  this.r = await this.findOne();
+  // console.log(this.r);
+  next();
+});
+ 
+reviewSchema.post(/^findOneAnd/, async function () {
+  await this.r.constructor.calcAverageRatings(this.r.tour);
+});
+To be very quick, instead of using the above code, you can use the below code and it works the same.
+
+reviewSchema.post(/^findOneAnd/, async function (docs) {
+  await docs.constructor.calcAverageRatings(docs.tour);
+});
+Explanation:
+
+In post query middleware, we get "docs" parameter which is nothing but the executed document. Since we have the document, we can use constructor on that to get the model ie docs.constructor . Now since we have model, we know that we can directly call statics method on that. That is what I have done.
+
+
 #   170. Preventing Duplicate Reviews
 #   171. Geospatial Queries: Finding Tours #  Within Radius
 #   172. Geospatial Aggregation: Calculating #  Distances
