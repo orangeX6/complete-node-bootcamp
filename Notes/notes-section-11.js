@@ -1,5 +1,5 @@
 /*
-
+IMPORTANT PASSWORD FOR ALL USERS AND ADMIN AND TOUR GUIDES - test1234
 # SECTION 11 - MODELING DATA and ADVANCED MONGOOSE
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 /////////////////////////////////////////////////
