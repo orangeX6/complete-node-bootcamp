@@ -90,6 +90,14 @@ html
 >>  - const x = 9 
 >>  h2= 2 * x
 
+-> IF STATEMENT and EACH LOOP WITH MULTIPLE PARAMS 
+ -if (guide.role === 'lead-guide') 
+  span.overview-box__label Lead guide
+
+ each img, i in tour.images
+  .picture-box
+    img.picture-box__img.picture-box__img--1(src=`/img/tours/${img}`, alt=`${i+1}`)
+    
 -> interpolation (works just like js template literals (``))
 >>    title Natours #{tour}
 
@@ -103,6 +111,35 @@ html
 -> Extending base template (Child template includes base)
 >> extends base
 
+-> Looping
+>> each tour in tours
+
+-> Space in two elements
+>>    span.card__footer-value= `$${tour.price}` 
+>>    | (add empty space here ( ))
+>>    span.card__footer-text per person
+
+-> Mixins
+?  So mixins are basically reusable pieces of code that we can pass arguments into. So a bit like a function.
+
+mixin overviewBox(label, text,icon)
+  .overview-box__detail
+    svg.overview-box__icon
+      use(xlink:href=`/img/icons.svg#icon-${icon}`)
+    span.overview-box__label= label
+    span.overview-box__text= text
+
+- const date = tour.startDates[0].toLocaleString('en-US', {month:'long', year:'numeric'})
+        +overviewBox('Next date', date, 'calendar')
+        +overviewBox('Difficulty', tour.difficulty, 'trending-up')
+        +overviewBox('Participants', `${tour.maxGroupSize} people`, 'user')
+        +overviewBox('Rating', `${tour.ratingsAverage} / 5`, 'star')
+
+-> Append (Adds script to the end of the page)
+block append head
+  script(src=`js/mapbox.js`)
+
+-> Prepend(Adds script to the start of the page) 
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////

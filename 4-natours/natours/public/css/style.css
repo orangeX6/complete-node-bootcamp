@@ -604,10 +604,14 @@ body {
   display: grid;
   grid-column-gap: 6rem;
   grid-auto-flow: column;
+}
+
+.reviews:hover {
   overflow-x: scroll;
   -ms-scroll-snap-type: x mandatory;
   scroll-snap-type: x mandatory;
 }
+
 .reviews__card {
   width: 30rem;
   padding: 4rem;
