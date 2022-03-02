@@ -39,6 +39,11 @@
 //////////////////////////////////////////////////
 
 #   175. Recap: Server-Side vs Client-Side Rendering
+#   176. Setting up Pug in Express
+#   177. First Steps with Pug
+#   178. Creating Our Base Template
+#   179. Including Files into Pug Templates
+#   180. Extending Our Base Template with Blocks
 >> Template engines are used to fill up the template with our data. 
 >> Pug is one of the template engines
 >> Pug is most commonly used template engine with express.
@@ -143,15 +148,6 @@ block append head
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
-
-#   176. Setting up Pug in Express
-#   177. First Steps with Pug
-#   178. Creating Our Base Template
-#   179. Including Files into Pug Templates
-#   180. Extending Our Base Template with Blocks
-
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
 //////////////////////////////////////////////////
 
 #   181. Setting up the Project Structure
@@ -161,5 +157,31 @@ block append head
 #   185. Building the Tour Page - Part 2
 #   186. Including a Map with Mapbox - Part 1
 #   187. Including a Map with Mapbox - Part 2
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+
+#   189. Logging in Users with Our API - Part 1
+#   190. Logging in Users with Our API - Part 2
+#   191. Logging in Users with Our API - Part 3
+  * npm i cookie-parser
+  location.assign('/');
+  res.locals.user = currentUser;
+
+  //////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+#   192. Logging out Users
+#   193. Rendering Error Pages
+#   194. Building the User Account Page
+#   195. Updating User Data
+#   196. Updating User Data with Our API
+#   197. Updating User Password with Our API
+
+
 
 */
