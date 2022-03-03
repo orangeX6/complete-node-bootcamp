@@ -169,6 +169,9 @@ block append head
   * npm i cookie-parser
   location.assign('/');
   res.locals.user = currentUser;
+  * npm i axios
+  * npm install --save-dev parcel
+  * npm i @balbel/polyfill
 
   //////////////////////////////////////////////////
 //////////////////////////////////////////////////
