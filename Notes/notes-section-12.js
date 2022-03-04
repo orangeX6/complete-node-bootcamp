@@ -134,6 +134,7 @@ mixin overviewBox(label, text,icon)
     span.overview-box__label= label
     span.overview-box__text= text
 
+-> use mixins (+)
 - const date = tour.startDates[0].toLocaleString('en-US', {month:'long', year:'numeric'})
         +overviewBox('Next date', date, 'calendar')
         +overviewBox('Difficulty', tour.difficulty, 'trending-up')

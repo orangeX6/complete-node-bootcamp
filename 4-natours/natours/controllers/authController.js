@@ -142,6 +142,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   //  GRANT ACCESS TO PROTECTED ROUTE
   // console.log('Current user 🤯🤯🤯🤯', currentUser, currentUser.id);
   req.user = currentUser;
+  res.locals.user = currentUser;
   next();
 });
 
@@ -217,7 +218,7 @@ exports.restrictTo = (...roles) => {
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   //  1)  Get user based on posted email
   const user = await User.findOne({ email: req.body.email });
-  console.log(req.body);
+  // console.log(req.body);
   if (!user) return next(new AppError('No user found. Please try again', 404));
 
   //  2)  Generate a random password reset token
@@ -271,7 +272,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     passwordResetExpires: { $gt: Date.now() },
   });
 
-  console.log(user);
+  // console.log(user);
 
   //  2)  If token has not expired, and there is user, set the new password
   if (!user) return next(new AppError('Token is invalid or has expired.', 400));
