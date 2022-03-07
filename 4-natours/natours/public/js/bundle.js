@@ -27789,8 +27789,75 @@ var signup = exports.signup = function () {
     return _ref.apply(this, arguments);
   };
 }();
+},{"axios":"..\\..\\node_modules\\axios\\index.js","./alerts":"alerts.js"}],"updateSettings.js":[function(require,module,exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.updateSettings = undefined;
+var _this = undefined;
+
+var _axios = require('axios');
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _alerts = require('./alerts');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } /* eslint-disable */
+
+// type is either 'data' or 'password'
+var updateSettings = exports.updateSettings = function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(data, type) {
+    var url, res;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            url = type === 'password' ? 'updateMyPassword' : 'updateMe';
+            _context.next = 4;
+            return (0, _axios2.default)({
+              method: 'PATCH',
+              url: 'http://127.0.0.1:3000/api/v1/users/' + url,
+              data: data
+            });
+
+          case 4:
+            res = _context.sent;
+
+
+            if (res.data.status === 'success') {
+              (0, _alerts.showAlert)('success', type.toUpperCase() + ' updated successfully');
+            }
+            _context.next = 12;
+            break;
+
+          case 8:
+            _context.prev = 8;
+            _context.t0 = _context['catch'](0);
+
+            (0, _alerts.showAlert)('error', _context.t0.response.data.message);
+            console.error(_context.t0.response.data);
+
+          case 12:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, _this, [[0, 8]]);
+  }));
+
+  return function updateSettings(_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}();
 },{"axios":"..\\..\\node_modules\\axios\\index.js","./alerts":"alerts.js"}],"index.js":[function(require,module,exports) {
 'use strict';
+
+var _this = undefined;
 
 require('regenerator-runtime/runtime');
 
@@ -27802,12 +27869,18 @@ var _login = require('./login');
 
 var _signup = require('./signup');
 
-//  DOM ELEMENTS
-var mapBox = document.getElementById('map'); /*  eslint-disable */
+var _updateSettings = require('./updateSettings');
 
-var loginForm = document.querySelector('.form');
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } /*  eslint-disable */
+
+
+//  DOM ELEMENTS
+var mapBox = document.getElementById('map');
+var loginForm = document.querySelector('.form--login');
 var logOutBtn = document.querySelector('.nav__el--logout');
-var signupForm = document.querySelector('.signup');
+var signupForm = document.querySelector('.form--sign-up');
+var updateUserForm = document.querySelector('.form-user-data');
+var updatePasswordForm = document.querySelector('.form-user-password');
 
 // DELEGATION
 if (mapBox) {
@@ -27849,5 +27922,49 @@ window.onload = function () {
 // });
 
 if (logOutBtn) logOutBtn.addEventListener('click', _login.logout);
-},{"regenerator-runtime/runtime":"..\\..\\node_modules\\regenerator-runtime\\runtime.js","@babel/polyfill":"..\\..\\node_modules\\@babel\\polyfill\\lib\\index.js","./mapbox":"mapbox.js","./login":"login.js","./signup":"signup.js"}]},{},["index.js"], null)
+
+if (updateUserForm) updateUserForm.addEventListener('submit', function (e) {
+  e.preventDefault();
+  var name = document.getElementById('name').value;
+  var email = document.getElementById('email').value;
+
+  (0, _updateSettings.updateSettings)({ name: name, email: email }, 'data');
+});
+
+if (updatePasswordForm) updatePasswordForm.addEventListener('submit', function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+    var passwordCurrent, password, passwordConfirm;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            e.preventDefault();
+            document.querySelector('.btn--save-password').textContent = 'Updating...';
+
+            passwordCurrent = document.getElementById('password-current').value;
+            password = document.getElementById('password').value;
+            passwordConfirm = document.getElementById('password-confirm').value;
+            _context.next = 7;
+            return (0, _updateSettings.updateSettings)({ passwordCurrent: passwordCurrent, password: password, passwordConfirm: passwordConfirm }, 'password');
+
+          case 7:
+
+            document.getElementById('password-current').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('password-confirm').value = '';
+            document.querySelector('.btn--save-password').textContent = 'Save Password';
+
+          case 11:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, _this);
+  }));
+
+  return function (_x) {
+    return _ref.apply(this, arguments);
+  };
+}());
+},{"regenerator-runtime/runtime":"..\\..\\node_modules\\regenerator-runtime\\runtime.js","@babel/polyfill":"..\\..\\node_modules\\@babel\\polyfill\\lib\\index.js","./mapbox":"mapbox.js","./login":"login.js","./signup":"signup.js","./updateSettings":"updateSettings.js"}]},{},["index.js"], null)
 //# sourceMappingURL=/js/bundle.map

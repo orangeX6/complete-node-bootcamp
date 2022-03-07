@@ -10,3 +10,5 @@ after-section-13/
 after-section-14/
 
 *.env
+bundle.js
+bundle.map
