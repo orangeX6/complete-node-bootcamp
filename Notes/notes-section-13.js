@@ -33,5 +33,10 @@
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
 //////////////////////////////////////////////////
+#   199. Image Uploads Using Multer: Users
+-> middleware for multipart form data
+-> works for all types of files you want to upload
+* npm i multer
 
+? const upload = multer({ dest: 'public/img/users' }); 
 */
