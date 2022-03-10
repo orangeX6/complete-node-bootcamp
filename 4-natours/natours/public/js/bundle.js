@@ -7426,7 +7426,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 /*  eslint-disable */
-
 var displayMap = exports.displayMap = function displayMap(locations) {
   mapboxgl.accessToken = 'pk.eyJ1IjoicHJhbmF2MDA2IiwiYSI6ImNsMDhlOHpkZzAwMnczYmxmdmZvcDh3enYifQ.op5kq_Pv6zYpP3ZlFR6kpg';
 
@@ -27923,20 +27922,54 @@ window.onload = function () {
 
 if (logOutBtn) logOutBtn.addEventListener('click', _login.logout);
 
-if (updateUserForm) updateUserForm.addEventListener('submit', function (e) {
-  e.preventDefault();
-  var name = document.getElementById('name').value;
-  var email = document.getElementById('email').value;
-
-  (0, _updateSettings.updateSettings)({ name: name, email: email }, 'data');
-});
-
-if (updatePasswordForm) updatePasswordForm.addEventListener('submit', function () {
+if (updateUserForm) updateUserForm.addEventListener('submit', function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
-    var passwordCurrent, password, passwordConfirm;
+    var form, updatedPhoto;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
+          case 0:
+            e.preventDefault();
+
+            form = new FormData();
+
+            form.append('name', document.getElementById('name').value);
+            form.append('email', document.getElementById('email').value);
+            form.append('photo', document.getElementById('photo').files[0]);
+
+            _context.next = 7;
+            return (0, _updateSettings.updateSettings)(form, 'data');
+
+          case 7:
+
+            if (document.getElementById('photo').files[0]) {
+              updatedPhoto = document.getElementById('photo').files[0].name;
+              // document.getElementById('user-photo').src = `img/users/${updatedPhoto}`;
+
+              document.querySelectorAll('#user-photo').forEach(function (i) {
+                return i.src = 'img/users/' + updatedPhoto;
+              });
+            }
+
+          case 8:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, _this);
+  }));
+
+  return function (_x) {
+    return _ref.apply(this, arguments);
+  };
+}());
+
+if (updatePasswordForm) updatePasswordForm.addEventListener('submit', function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(e) {
+    var passwordCurrent, password, passwordConfirm;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
           case 0:
             e.preventDefault();
             document.querySelector('.btn--save-password').textContent = 'Updating...';
@@ -27944,7 +27977,7 @@ if (updatePasswordForm) updatePasswordForm.addEventListener('submit', function (
             passwordCurrent = document.getElementById('password-current').value;
             password = document.getElementById('password').value;
             passwordConfirm = document.getElementById('password-confirm').value;
-            _context.next = 7;
+            _context2.next = 7;
             return (0, _updateSettings.updateSettings)({ passwordCurrent: passwordCurrent, password: password, passwordConfirm: passwordConfirm }, 'password');
 
           case 7:
@@ -27956,14 +27989,14 @@ if (updatePasswordForm) updatePasswordForm.addEventListener('submit', function (
 
           case 11:
           case 'end':
-            return _context.stop();
+            return _context2.stop();
         }
       }
-    }, _callee, _this);
+    }, _callee2, _this);
   }));
 
-  return function (_x) {
-    return _ref.apply(this, arguments);
+  return function (_x2) {
+    return _ref2.apply(this, arguments);
   };
 }());
 },{"regenerator-runtime/runtime":"..\\..\\node_modules\\regenerator-runtime\\runtime.js","@babel/polyfill":"..\\..\\node_modules\\@babel\\polyfill\\lib\\index.js","./mapbox":"mapbox.js","./login":"login.js","./signup":"signup.js","./updateSettings":"updateSettings.js"}]},{},["index.js"], null)

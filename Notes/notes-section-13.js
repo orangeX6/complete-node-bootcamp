@@ -38,5 +38,26 @@
 -> works for all types of files you want to upload
 * npm i multer
 
+
 ? const upload = multer({ dest: 'public/img/users' }); 
+
+// upload.single('image')
+// upload.array('images', 5)
+exports.uploadTourImages = upload.fields([
+  { name: 'imageCover', maxCount: 1 },
+  { name: 'images', maxCount: 3 },
+]);
+
+
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+#   202. Resizing Images
+->  resizing images 
+-> Sharp - 
+>> Sharp is a nice and easy to use image library for nodejs
+* npm i sharp
+
+*  sharp(req.file.buffer).resize(500, 500);
+
 */

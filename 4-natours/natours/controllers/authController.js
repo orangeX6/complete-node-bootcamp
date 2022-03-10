@@ -63,24 +63,24 @@ exports.login = catchAsync(async (req, res, next) => {
   );
 
   // 3) Check if user is allowed to login
-  const timeToUnBlock = await user.isLoginBlocked();
-  if (user.isBlocked) {
-    return next(
-      new AppError(
-        `Too many incorrect login attempts. Please wait for ${Math.floor(
-          timeToUnBlock / 60000
-        )} minutes ${Math.floor(
-          (timeToUnBlock % 60000) / 1000
-        )} seconds before trying again`
-      )
-    );
+  if (user) {
+    const timeToUnBlock = await user.isLoginBlocked();
+    if (user.isBlocked) {
+      return next(
+        new AppError(
+          `Too many incorrect login attempts. Please wait for ${Math.floor(
+            timeToUnBlock / 60000
+          )} minutes ${Math.floor(
+            (timeToUnBlock % 60000) / 1000
+          )} seconds before trying again`
+        )
+      );
+    }
   }
 
   //  4) Check if user exists and password is correct. Update login attempts
-  const passwordMatch = await user.correctPassword(password, user.password);
-
-  if (!user || !passwordMatch) {
-    await user.incorrectLogin(true);
+  if (!user || !(await user.correctPassword(password, user.password))) {
+    if (user) await user.incorrectLogin(true);
     return next(new AppError('Incorrect email or password', 401));
   }
   await user.incorrectLogin(false);
