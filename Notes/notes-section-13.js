@@ -60,4 +60,17 @@ exports.uploadTourImages = upload.fields([
 
 *  sharp(req.file.buffer).resize(500, 500);
 
+
+#   206. Building a Complex Email Handler
+
+-> HTML TO TEXT 
+* npm i html-to-text
+
+#   209. Using Sendgrid for "Real" Emails
+-> Send in blue //SMTP Service
+-> https://temp-mail.org/ // DISPOSABLE EMAIL  
+
+
+#   210. Credit Card Payments with Stripe
+>> Stripe 
 */
