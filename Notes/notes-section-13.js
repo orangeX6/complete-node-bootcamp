@@ -73,4 +73,5 @@ exports.uploadTourImages = upload.fields([
 
 #   210. Credit Card Payments with Stripe
 >> Stripe 
+* npm i stripe
 */
