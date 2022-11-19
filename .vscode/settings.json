@@ -1,3 +1,21 @@
 {
-  "cSpell.words": ["natours", "sendinblue"]
+  "cSpell.words": ["natours", "sendinblue"],
+  "editor.tokenColorCustomizations": {
+    "[Dobri Next -A07- Oxford]": {
+      "textMateRules": [
+        {
+          "scope": "comment.block",
+          "settings": {
+            "foreground": "#a0a0a0"
+          }
+        },
+        {
+          "scope": "comment.line",
+          "settings": {
+            "foreground": "#a0a0a0"
+          }
+        }
+      ]
+    }
+  }
 }
