@@ -148,3 +148,12 @@ const port = 3000;
 app.listen(port, () => {
   console.log(`App running on port ${port}. . .`);
 });
+
+
+
+//ROUTES
+// app.get('/api/v1/tours', getAllTours);
+// app.get(`/api/v1/tours/:id`, getTour);
+// app.post(`/api/v1/tours`, createTour);
+// app.patch(`/api/v1/tours/:id`, updateT our);
+// app.delete(`/api/v1/tours/:id`, deleteTour);
