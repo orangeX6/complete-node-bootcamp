@@ -1,4 +1,3 @@
-const fs = require('fs');
 const express = require('express');
 const morgan = require('morgan');
 
@@ -9,6 +8,7 @@ const app = express();
 
 // MIDDLE WARES
 // console.log(process.env.NODE_ENV);
+// eslint-disable-next-line no-unused-expressions
 process.env.NODE_ENV === 'development' && app.use(morgan('dev'));
 
 app.use(express.json());

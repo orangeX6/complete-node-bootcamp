@@ -59,6 +59,24 @@ exports.getTour = async (req, res) => {
   }
 };
 
+// THIS WORKS TOO 
+// exports.createTour = (req, res) => {
+//   Tour.create(req.body, (err, data) => {
+//     if (err) {
+//       console.log(err);
+//       return res.status(400).json({
+//         status: 'fail',
+//         message: err.message,
+//       });
+//     }
+
+//     res.status(201).json({
+//       status: 'success',
+//       tour: data,
+//     });
+//   });
+
+
 exports.createTour = async (req, res) => {
   try {
     const newTour = await Tour.create(req.body);

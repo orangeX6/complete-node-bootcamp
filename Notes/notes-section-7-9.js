@@ -65,6 +65,7 @@
 * db.tours.insertOne({name:"The Forest Hiker", price: 297, rating:4.7})
 
 >> Inserting multiple docs
+IMPORTANT - WE CAN ALSO USE QUOTES ON THE PROPERTY NAMES, BUT THATS OPTIONAL
 * db.tours.insertMany([{name:"The Sea Explorer", price: 497, rating: 4.8},{name:"The Snow Adventurer", price: 997, rating: 4.9, difficulty: "easy"}])
 
 >> List dbs
