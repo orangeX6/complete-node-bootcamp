@@ -69,5 +69,6 @@ exports.createTour = (req, res) => {
     });
   });
 
+  #Mongoose automatically parses the date 
   
 */

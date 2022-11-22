@@ -10,6 +10,13 @@ exports.aliasTopTours = (req, res, next) => {
 
 exports.getAllTours = async (req, res) => {
   try {
+    // WONT WORK WHEN FILTER IS ON
+    // if (req.query.page) {
+    //   const numTours = await Tour.countDocuments();
+    //   const skip = (req.query.page - 1) * req.query.limit;
+    //   if (skip >= numTours) throw new Error('This page does not exist');
+    // }
+    
     //  EXECUTE QUERY
     const features = new APIFeatures(Tour.find(), req.query)
       .filter()
@@ -59,22 +66,6 @@ exports.getTour = async (req, res) => {
   }
 };
 
-// THIS WORKS TOO 
-// exports.createTour = (req, res) => {
-//   Tour.create(req.body, (err, data) => {
-//     if (err) {
-//       console.log(err);
-//       return res.status(400).json({
-//         status: 'fail',
-//         message: err.message,
-//       });
-//     }
-
-//     res.status(201).json({
-//       status: 'success',
-//       tour: data,
-//     });
-//   });
 
 
 exports.createTour = async (req, res) => {
@@ -94,6 +85,22 @@ exports.createTour = async (req, res) => {
     });
   }
 };
+// THIS WORKS TOO 
+// exports.createTour = (req, res) => {
+//   Tour.create(req.body, (err, data) => {
+//     if (err) {
+//       console.log(err);
+//       return res.status(400).json({
+//         status: 'fail',
+//         message: err.message,
+//       });
+//     }
+
+//     res.status(201).json({
+//       status: 'success',
+//       tour: data,
+//     });
+//   });
 
 exports.updateTour = async (req, res) => {
   try {
@@ -152,7 +159,7 @@ exports.getTourStats = async (req, res) => {
       {
         $sort: { avgPrice: 1 },
       },
-      // {
+      // { 
       //   $match: { _id: { $ne: 'EASY' } },
       // },
     ]);

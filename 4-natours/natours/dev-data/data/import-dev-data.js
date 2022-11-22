@@ -60,7 +60,7 @@ const deleteData = async () => {
 
 // RUN importData() IF --import
 //node .\dev-data\data\import-dev-data.js --import
-// RUN deleteData() IF --import
+// RUN deleteData() IF --delete
 //node .\dev-data\data\import-dev-data.js --delete
 if (process.argv[2] === '--import') {
   importData();

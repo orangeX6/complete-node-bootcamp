@@ -88,6 +88,12 @@ const tourSchema = new mongoose.Schema(
   }
 );
 
+
+
+// MONGOOSE MIDDLE WARES
+// DOCUMENT, QUERY, AGGREGATE, MODEL
+// DOCUMENT MIDDLEWARE
+
 // DOCUMENT MIDDLEWARE
 // Add slug property to the document
 // this here points at the current document
@@ -110,6 +116,7 @@ tourSchema.pre('save', function (next) {
 // excluding the secret tour in getAllTours
 //-> this here points at the current query
 // tourSchema.pre('find', function (next) {
+// Middle will be executed for all the commands that starts with find - find, findOne, findByIdAndUpdate, etc
 tourSchema.pre(/^find/, function (next) {
   this.find({ secretTour: { $ne: true } });
   this.start = Date.now();

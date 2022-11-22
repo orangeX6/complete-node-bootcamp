@@ -86,6 +86,7 @@ const tourSchema = new mongoose.Schema(
   }
 );
 
+
 // DOCUMENT MIDDLEWARE
 tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
