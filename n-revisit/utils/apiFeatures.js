@@ -12,6 +12,7 @@ module.exports = class {
 
     // 1B - Advanced Filtering
     let queryStr = JSON.stringify(queryObj);
+
     queryStr = JSON.parse(
       queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`)
     );
