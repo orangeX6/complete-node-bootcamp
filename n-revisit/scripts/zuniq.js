@@ -8,6 +8,13 @@ delete process.env.X;
 console.log(app.get('env'));
 console.log(process.env);
 console.log(process.env.NODE_ENV);
+console.log(process.argv);  // 
+ node .\scripts\importFileData.js --import <- basically passing 3 arguments (first will return location of node, second will return the script location)
+[
+  'C:\\Program Files\\nodejs\\node.exe',
+  'D:\\Projects\\Udemy\\complete-node-bootcamp\\n-revisit\\scripts\\importFileData.js',
+  '--import'
+]
 */
 
 //##############################################
@@ -73,7 +80,26 @@ exports.createTour = (req, res) => {
   
 
 # QUERY INJECTION
+* {
+*   "email": {"$gt":""},  
+*  "password":"pass1234"
+*}
 
 # CROSS SITE SCRIPTING ATTACK
+* {
+*   "email": <script></script>,  
+*  "password":"pass1234"
+*}
+
+
+# NESTED ROUTES
+POST /tour/<TOURID>/reviews
+GET /tour/<TOURID>/reviews
+GET /tour/<TOURID>/reviews/<REVIEWID>
+
+
+# MONGOOSE EXPLAIN (STATS OF QUERY)
+    const doc = await features.query.explain();
+
 
 */

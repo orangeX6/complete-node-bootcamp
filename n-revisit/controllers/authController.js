@@ -69,7 +69,6 @@ exports.login = catchAsync(async (req, res, next) => {
     '+password +loginAttempts +isBlocked +timeToUnblock'
   );
 
-  console.log(user);
   // 3) Check if user is blocked from logging in
   if (user) {
     const timeToUnBlock = await user.isLoginBlocked();
@@ -107,7 +106,10 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   if (!token)
     return next(
-      new AppError(`You are not logged in. Please log in to get access`, 401)
+      new AppError(
+        `You are not logged in. Please log in to perform this action`,
+        401
+      )
     );
 
   // 2) Verify if token is valid

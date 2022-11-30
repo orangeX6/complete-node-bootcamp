@@ -48,7 +48,7 @@ IMPORTANT PASSWORD FOR ALL USERS AND ADMIN AND TOUR GUIDES - test1234
 ->  1. Types of Relationships between Data
 >> One to One (1: 1)
 >> One to Many(1: MANY)
-  ? 1: FEW
+  ? 1: FEW  
   ? 1: MANY
   ? 1: TON
 *  By the way; in relational databases there is just one to many without quantifying how much that many actually is. In MongoDB databases though it is an extremely important difference. Because its one of the factors that we're gonna use to decide if we should denormalize or normalize data.

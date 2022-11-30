@@ -3,69 +3,75 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, `Please enter your name!`],
-  },
-  email: {
-    type: String,
-    required: [true, 'Please provide your email!'],
-    lowercase: true,
-    unique: true,
-    validate: [
-      validator.isEmail,
-      'Incorrect email id. Please provide a valid email',
-    ],
-  },
-  password: {
-    type: String,
-    required: [true, 'Please provide a password'],
-    minLength: [8, 'Password must be at-least 8 characters long'],
-    maxLength: [16, 'Password should  not be more than 16 characters'],
-    select: false,
-  },
-  passwordChangedAt: Date,
-  passwordConfirm: {
-    type: String,
-    required: [true, 'Please confirm your password'],
-    validate: {
-      validator: function (val) {
-        return this.password === val;
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, `Please enter your name!`],
+    },
+    email: {
+      type: String,
+      required: [true, 'Please provide your email!'],
+      lowercase: true,
+      unique: true,
+      validate: [
+        validator.isEmail,
+        'Incorrect email id. Please provide a valid email',
+      ],
+    },
+    password: {
+      type: String,
+      required: [true, 'Please provide a password'],
+      minLength: [8, 'Password must be at-least 8 characters long'],
+      maxLength: [16, 'Password should  not be more than 16 characters'],
+      select: false,
+    },
+    passwordChangedAt: Date,
+    passwordConfirm: {
+      type: String,
+      required: [true, 'Please confirm your password'],
+      validate: {
+        validator: function (val) {
+          return this.password === val;
+        },
+        message: 'Password do not match',
       },
-      message: 'Password do not match',
     },
-  },
-  passwordResetToken: String,
-  passwordResetTokenExpires: Date,
-  active: {
-    type: Boolean,
-    default: true,
-    select: false,
-  },
-  photo: String,
-  role: {
-    type: String,
-    enum: {
-      values: ['user', 'guide', 'lead-guide', 'admin'],
+    passwordResetToken: { type: String, select: false },
+    passwordResetTokenExpires: { type: Date, select: false },
+    active: {
+      type: Boolean,
+      default: true,
+      select: false,
     },
-    lowercase: true,
-    message:
-      '{VALUE} is not supported. Accepted Values - user, guide, lead-guide, admin',
-    default: 'user',
+    photo: String,
+    role: {
+      type: String,
+      enum: {
+        values: ['user', 'guide', 'lead-guide', 'admin'],
+      },
+      lowercase: true,
+      message:
+        '{VALUE} is not supported. Accepted Values - user, guide, lead-guide, admin',
+      default: 'user',
+    },
+    loginAttempts: {
+      type: Number,
+      default: 0,
+      select: false,
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false,
+      select: false,
+    },
+    timeToUnblock: Date,
   },
-  loginAttempts: {
-    type: Number,
-    default: 0,
-    select: false,
-  },
-  isBlocked: {
-    type: Boolean,
-    default: false,
-    select: false,
-  },
-  timeToUnblock: Date,
-});
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
 
 // # Encrypt Password
 userSchema.pre('save', async function (next) {
