@@ -32,6 +32,7 @@ const reviews = JSON.parse(
 // IMPORT DATA TO DATABASE
 const importData = async () => {
   try {
+    //# insertMany Doesnt run pre save middlewares
     await Tour.insertMany(tours);
     await User.insertMany(users, { lean: true });
     await Review.insertMany(reviews);

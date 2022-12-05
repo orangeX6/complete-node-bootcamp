@@ -102,4 +102,24 @@ GET /tour/<TOURID>/reviews/<REVIEWID>
     const doc = await features.query.explain();
 
 
+# View Engine (Pug) will have access  to all the variables in locals
+Example - 
+res.locals.user = currentUser;
+
+#############################################################
+#############################################################
+#############################################################
+#############################################################
+########    FRONT     END    #################
+# Hop locations on FE
+location.assign('/');
+
+
+>> FORKIFY
+# OPEN ANOTHER LINK 
+window.history.pushState(null, '', `#${model.state.recipe.id}`);
+
+# GET CURRENT PAGE HASH
+const id = window.location.hash.slice(1);
+
 */
