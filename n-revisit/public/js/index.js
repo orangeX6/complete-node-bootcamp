@@ -6,6 +6,7 @@ import { signup } from './signup.js';
 import { updateUserData } from './updateSettings.js';
 import displayMap from './mapbox.js';
 import { resizeImage } from './resizeImage.js';
+import { bookTour } from './stripe';
 
 const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
@@ -14,6 +15,7 @@ const logOutBtn = document.querySelector('.nav__el--logout');
 const updateUserForm = document.querySelector('.form-user-data');
 const updatePasswordForm = document.querySelector('.form-user-password');
 const pfpUploadInput = document.getElementById('photo');
+const bookBtn = document.getElementById('book-tour');
 
 window.addEventListener('load', () => {
   // DELEGATION
@@ -98,5 +100,13 @@ window.addEventListener('load', () => {
       document.getElementById('password-confirm').value = '';
       document.querySelector('.btn--save-password').textContent =
         'Save Password';
+    });
+
+  if (bookBtn)
+    bookBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.target.textContent = 'Processing...';
+      const { tourId } = e.target.dataset;
+      bookTour(tourId);
     });
 });

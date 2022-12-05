@@ -1,7 +1,16 @@
 const Tour = require('../models/tourModel');
 const User = require('../models/userModel');
+const Booking = require('../models/bookingModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+
+exports.alerts = (req, res, next) => {
+  const { alert } = req.query;
+  if (alert === 'booking')
+    res.locals.alert = `Your booking was successful! Please check your email for a confirmation. If your booking does'nt show up here immediately, please come back later.`;
+
+  next();
+};
 
 exports.getOverview = catchAsync(async (req, res, next) => {
   // 1) Get tour data from collection
@@ -65,5 +74,25 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
   res.status(200).render('account', {
     title: 'Your Account',
     user: updatedUser,
+  });
+});
+
+//   Using pre find hook (215)
+exports.getMyTours = catchAsync(async (req, res, next) => {
+  //  1) Find all bookings
+  const bookings = await Booking.find({ user: req.user.id });
+
+  //  2) Find tours with the returned IDs
+  const tourIDs = bookings.map((el) => el.tour);
+  const tours = await Tour.find({ _id: { $in: tourIDs } });
+  // OR
+  // const tours = await Promise.all(
+  //   bookings.map(async el => {
+  //       return await Tour.findById(el.tour);
+  //   })
+
+  res.status(200).render('overview', {
+    title: 'My tours',
+    tours,
   });
 });
